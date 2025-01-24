@@ -21,4 +21,12 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('',views.index,name='home'),
     path('about/',views.about,name='about'),
+    path('contact/',views.contact,name='contact'),
+    path('streamlit/', views.streamlit_view, name='streamlit_embed'),
+    #TODO: Add a new path for the streamlit chatbot
+    path('chatbot/', views.chatbot, name='chatbot'),
+    path('models/', views.model, name='models'),
+    path('parkinson/', views.parkinson, name='parkinson'),
+    path('cancer/', views.cancer, name='cancer'),
+    path('heartdisease/', views.heartdisease, name='heartdisease'),
 ]
