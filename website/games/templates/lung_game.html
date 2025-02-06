@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Lung Health Checker</title>
+    <style>
+        .container {
+            max-width: 500px;
+            margin: 50px auto;
+            text-align: center;
+            font-family: Arial, sans-serif;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        }
+        .timer {
+            font-size: 48px;
+            margin: 20px 0;
+            color: #2c3e50;
+        }
+        .button {
+            padding: 15px 30px;
+            font-size: 18px;
+            margin: 10px;
+            border: none;
+            border-radius: 25px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        .start {
+            background: #2ecc71;
+            color: white;
+        }
+        .stop {
+            background: #e74c3c;
+            color: white;
+        }
+        .restart {
+            background: #3498db;
+            color: white;
+        }
+        .button:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+        .result {
+            margin-top: 20px;
+            padding: 15px;
+            border-radius: 5px;
+            display: none;
+        }
+        .good {
+            background: #d5f5e3;
+            color: #27ae60;
+        }
+        .average {
+            background: #fef9e7;
+            color: #f1c40f;
+        }
+        .poor {
+            background: #fadbd8;
+            color: #c0392b;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Lung Health Checker</h1>
+        <p>Hold your breath and click stop when you need to breathe</p>
+        <div class="timer" id="timer">00:00</div>
+        <button class="button start" id="startBtn" onclick="startTimer()">Start</button>
+        <button class="button stop" id="stopBtn" onclick="stopTimer()" disabled>Stop</button>
+        <button class="button restart" id="restartBtn" onclick="restartTimer()" disabled>Restart</button>
+        <div class="result" id="result"></div>
+    </div>
+
+    <script>
+        let timer;
+        let seconds = 0;
+        let isRunning = false;
+
+        function startTimer() {
+            isRunning = true;
+            seconds = 0;
+            document.getElementById('startBtn').disabled = true;
+            document.getElementById('stopBtn').disabled = false;
+            document.getElementById('restartBtn').disabled = true;
+            document.getElementById('result').style.display = 'none';
+            
+            timer = setInterval(() => {
+                seconds++;
+                const mins = Math.floor(seconds / 60);
+                const secs = seconds % 60;
+                document.getElementById('timer').textContent = 
+                    `${mins.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`;
+            }, 1000);
+        }
+
+        function stopTimer() {
+            isRunning = false;
+            clearInterval(timer);
+            document.getElementById('startBtn').disabled = true;
+            document.getElementById('stopBtn').disabled = true;
+            document.getElementById('restartBtn').disabled = false;
+            
+            const result = document.getElementById('result');
+            result.style.display = 'block';
+            
+            if (seconds < 30) {
+                result.className = 'result poor';
+                result.textContent = `You held your breath for ${seconds} seconds. Your lung capacity might need improvement. Regular exercise can help!`;
+            } else if (seconds < 60) {
+                result.className = 'result average';
+                result.textContent = `You held your breath for ${seconds} seconds. Your lung capacity is average. Keep working on it!`;
+            } else {
+                result.className = 'result good';
+                result.textContent = `You held your breath for ${seconds} seconds. Excellent lung capacity! Keep maintaining your health.`;
+            }
+        }
+
+        function restartTimer() {
+            document.getElementById('timer').textContent = '00:00';
+            document.getElementById('startBtn').disabled = false;
+            document.getElementById('stopBtn').disabled = true;
+            document.getElementById('restartBtn').disabled = true;
+            document.getElementById('result').style.display = 'none';
+            seconds = 0;
+        }
+    </script>
+</body>
+</html>

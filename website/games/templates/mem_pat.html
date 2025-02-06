@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Memory Pattern Game</title>
+    <style>
+        .game-container {
+            max-width: 500px;
+            margin: 50px auto;
+            text-align: center;
+            font-family: Arial, sans-serif;
+        }
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(2, 100px);
+            grid-gap: 10px;
+            margin: 20px auto;
+            width: 210px;
+        }
+        .cell {
+            width: 100px;
+            height: 100px;
+            background: #3498db;
+            cursor: pointer;
+            border-radius: 5px;
+        }
+        .flash {
+            background: #e74c3c;
+        }
+        .button {
+            padding: 10px 20px;
+            background: #2ecc71;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        .score {
+            font-size: 24px;
+            margin: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="game-container">
+        <h1>Memory Pattern Game</h1>
+        <p>Watch the pattern and repeat it!</p>
+        <div class="grid">
+            <div class="cell" data-cell="0"></div>
+            <div class="cell" data-cell="1"></div>
+            <div class="cell" data-cell="2"></div>
+            <div class="cell" data-cell="3"></div>
+        </div>
+        <button class="button" onclick="startGame()">Start Game</button>
+        <div class="score">Score: <span id="score">0</span></div>
+    </div>
+
+    <script>
+        let sequence = [];
+        let playerSequence = [];
+        let score = 0;
+
+        function startGame() {
+            sequence = [];
+            playerSequence = [];
+            score = 0;
+            document.getElementById('score').textContent = score;
+            addToSequence();
+        }
+
+        function addToSequence() {
+            sequence.push(Math.floor(Math.random() * 4));
+            playSequence();
+        }
+
+        function playSequence() {
+            let i = 0;
+            let interval = setInterval(() => {
+                flashCell(sequence[i]);
+                i++;
+                if (i >= sequence.length) {
+                    clearInterval(interval);
+                    enablePlayerInput();
+                }
+            }, 1000);
+        }
+
+        function flashCell(cellNumber) {
+            const cell = document.querySelector(`[data-cell="${cellNumber}"]`);
+            cell.classList.add('flash');
+            setTimeout(() => cell.classList.remove('flash'), 500);
+        }
+
+        function enablePlayerInput() {
+            const cells = document.querySelectorAll('.cell');
+            cells.forEach(cell => {
+                cell.onclick = handlePlayerInput;
+            });
+        }
+
+        function handlePlayerInput(event) {
+            const cellNumber = parseInt(event.target.dataset.cell);
+            playerSequence.push(cellNumber);
+            flashCell(cellNumber);
+
+            if (playerSequence[playerSequence.length - 1] !== sequence[playerSequence.length - 1]) {
+                alert('Game Over! Your score: ' + score);
+                startGame();
+                return;
+            }
+
+            if (playerSequence.length === sequence.length) {
+                score++;
+                document.getElementById('score').textContent = score;
+                playerSequence = [];
+                setTimeout(addToSequence, 1000);
+            }
+        }
+    </script>
+</body>
+</html>

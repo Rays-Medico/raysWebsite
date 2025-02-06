@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Reaction Time Tester</title>
+    <style>
+        .game-container {
+            max-width: 500px;
+            margin: 50px auto;
+            text-align: center;
+            font-family: Arial, sans-serif;
+            padding: 20px;
+        }
+        #box {
+            width: 200px;
+            height: 200px;
+            background: red;
+            margin: 20px auto;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 18px;
+        }
+        .results {
+            margin: 20px;
+            padding: 15px;
+            background: #f0f0f0;
+            border-radius: 5px;
+        }
+        .button {
+            padding: 10px 20px;
+            background: #3498db;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <div class="game-container">
+        <h1>Test Your Reaction Time!</h1>
+        <p>Wait for the box to turn green, then click as quickly as you can!</p>
+        <div id="box">Wait...</div>
+        <button class="button" onclick="startGame()">Start Test</button>
+        <div class="results" id="results"></div>
+    </div>
+
+    <script>
+        let startTime, endTime;
+        let gameStarted = false;
+        let timeoutId;
+
+        function startGame() {
+            document.getElementById('box').style.backgroundColor = 'red';
+            document.getElementById('box').textContent = 'Wait for green...';
+            document.getElementById('results').textContent = '';
+            gameStarted = false;
+
+            // Random delay between 1-5 seconds
+            timeoutId = setTimeout(() => {
+                document.getElementById('box').style.backgroundColor = 'green';
+                document.getElementById('box').textContent = 'Click Now!';
+                startTime = new Date().getTime();
+                gameStarted = true;
+            }, Math.random() * 4000 + 1000);
+        }
+
+        document.getElementById('box').onclick = function() {
+            if (!gameStarted) {
+                clearTimeout(timeoutId);
+                document.getElementById('results').textContent = 'Too early! Try again.';
+                return;
+            }
+            
+            endTime = new Date().getTime();
+            let reactionTime = endTime - startTime;
+            let result = `Your reaction time: ${reactionTime} milliseconds\n`;
+            
+            if (reactionTime < 250) {
+                result += 'Excellent reflexes!';
+            } else if (reactionTime < 350) {
+                result += 'Good reflexes!';
+            } else {
+                result += 'Keep practicing!';
+            }
+            
+            document.getElementById('results').textContent = result;
+            gameStarted = false;
+        };
+    </script>
+</body>
+</html>
