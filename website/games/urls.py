@@ -6,5 +6,4 @@ urlpatterns = [
     path('mem_pat/',views.mem_pat,name='mem_pat'),
     path('reaction/',views.reaction,name='reaction'),
     path('lung_game/',views.lung_game,name='lung_game'),
-
 ]

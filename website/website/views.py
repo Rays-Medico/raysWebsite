@@ -16,8 +16,8 @@ def streamlit_view(request):
 def chatbot(request):
     return render(request, 'chatbot.html')
 
-def model(request):
-    return render(request, 'model.html')
+# def model(request):
+#     return render(request, 'models.html')
 
 def parkinson(request):
     return render(request, 'parkinson.html')
