@@ -2,11 +2,11 @@
     background-color: #88B04B ;
 }
 
-.title {
+.title, .cards-intro, .ai_docs, .game_intro, .form {
     background-color: #FFF8E1;
 }
 
-.why_us {
+.why_us, .cards, .model_cards, .gamez {
     background-color: #FAFAFA;
 }
 
@@ -198,4 +198,59 @@ font-style: italic;
 font-family: "Merriweather", serif;
 font-weight: 900;
 font-style: italic;
+}
+
+.card-cover {
+    background-repeat: no-repeat;
+    background-position: center center;
+    background-size: cover;
+}
+
+a {
+    color: #0060B6;
+    text-decoration: none;
+}
+
+a:hover {
+    color:#00A0C6; 
+    text-decoration:none; 
+    cursor:pointer;  
+}
+
+.form {
+    padding: 20px;
+}
+
+.formm {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 1rem; /* Adds padding inside the form container */
+    border: 2px solid #000; /* Border color (black here) */
+    border-radius: 20px; /* Rounds the corners */
+    background-color: #FAFAFA; /* Background color */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Optional shadow for depth */
+    max-width: 500px; /* Sets max width for the form container */
+    margin:auto; /* Centers the form horizontally */
+}
+
+.formm h1 {
+    margin-bottom: 1rem; /* Space below the heading */
+    text-align: center;
+}
+
+.formm form div {
+    margin-bottom: 1rem; /* Space between input fields */
+    width: 100%; /* Ensures inputs span full width of form */
+}
+
+.formm form input,
+.formm form select,
+.formm form button {
+    width: 100%; /* Makes inputs stretch to full width */
+    padding: 0.5rem; /* Adds padding inside inputs */
+    border-radius: 10px; /* Rounds the corners of inputs/buttons */
+    border: 1px solid #ccc; /* Border for inputs */
+    font-size: 1rem; /* Makes text size consistent */
 }

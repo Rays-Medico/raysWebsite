@@ -18,7 +18,6 @@
                 <a href="{% url 'home' %}" class="d-flex align-items-center mb-2 mb-lg-0 text-white text-decoration-none">
                     <img src="{% static 'assets/iASWFP01.svg' %}" alt="logo" height="40">
                 </a>
-
                 <ul class="nav col-12 col-lg-auto me-lg-auto mb-2 justify-content-center mb-md-0">
                     <li><a href="{% url 'home' %}" class="nav-link px-2 text-white merriweather-regular">Home</a></li>
                     <li><a href="{% url 'models' %}" class="nav-link px-2 text-white merriweather-regular">Models</a></li>
@@ -27,7 +26,6 @@
                     <li><a href="{% url 'contact' %}" class="nav-link px-2 text-white merriweather-regular">Contact Us</a></li>
                     <li><a href="{% url 'about' %}" class="nav-link px-2 text-white merriweather-regular">About</a></li>
                 </ul>
-
                 <div class="text-end">
                     <button type="button" class="btn btn-outline-light me-2 merriweather-regular">Login</button>
                     <button type="button" class="btn btn-warning merriweather-regular">Sign-up</button>
@@ -42,6 +40,7 @@
             <h1>Parkinson's Disease Detection</h1>
             <form action="{% url 'parkinson_predict' %}" method="POST">
                 {% csrf_token %}
+                
                 <div>
                     <label for="MDVP_Fo_Hz">Average vocal fundamental frequency (Hz):</label>
                     <input type="number" id="MDVP_Fo_Hz" name="MDVP_Fo_Hz" step="0.01" required>
@@ -68,8 +67,13 @@
                 </div>
                 <br>
                 <div>
-                    <label for="MDVP_RAP">Relative Average Perturbation (short-term frequency variability):</label>
+                    <label for="MDVP_RAP">Relative Average Perturbation:</label>
                     <input type="number" id="MDVP_RAP" name="MDVP_RAP" step="0.01" required>
+                </div>
+                <br>
+                <div>
+                    <label for="MDVP_PPQ">Pitch Period Perturbation Quotient:</label>
+                    <input type="number" id="MDVP_PPQ" name="MDVP_PPQ" step="0.01" required>
                 </div>
                 <br>
                 <div>
@@ -87,6 +91,66 @@
                     <input type="number" id="MDVP_Shimmer_dB" name="MDVP_Shimmer_dB" step="0.01" required>
                 </div>
                 <br>
+                <div>
+                    <label for="Shimmer_APQ3">Amplitude Perturbation Quotient (3-cycle avg):</label>
+                    <input type="number" id="Shimmer_APQ3" name="Shimmer_APQ3" step="0.01" required>
+                </div>
+                <br>
+                <div>
+                    <label for="Shimmer_APQ5">Amplitude Perturbation Quotient (5-cycle avg):</label>
+                    <input type="number" id="Shimmer_APQ5" name="Shimmer_APQ5" step="0.01" required>
+                </div>
+                <br>
+                <div>
+                    <label for="MDVP_APQ">Amplitude Perturbation Quotient:</label>
+                    <input type="number" id="MDVP_APQ" name="MDVP_APQ" step="0.01" required>
+                </div>
+                <br>
+                <div>
+                    <label for="Shimmer_DDA">Average absolute differences between consecutive amplitudes:</label>
+                    <input type="number" id="Shimmer_DDA" name="Shimmer_DDA" step="0.01" required>
+                </div>
+                <br>
+                <div>
+                    <label for="NHR">Noise-to-Harmonics Ratio:</label>
+                    <input type="number" id="NHR" name="NHR" step="0.01" required>
+                </div>
+                <br>
+                <div>
+                    <label for="HNR">Harmonics-to-Noise Ratio:</label>
+                    <input type="number" id="HNR" name="HNR" step="0.01" required>
+                </div>
+                <br>
+                <div>
+                    <label for="RPDE">Recurrence Period Density Entropy:</label>
+                    <input type="number" id="RPDE" name="RPDE" step="0.01" required>
+                </div>
+                <br>
+                <div>
+                    <label for="DFA">Detrended Fluctuation Analysis:</label>
+                    <input type="number" id="DFA" name="DFA" step="0.01" required>
+                </div>
+                <br>
+                <div>
+                    <label for="spread1">Spread1: A non-linear measure capturing variation in the voice:</label>
+                    <input type="number" id="spread1" name="spread1" step="0.01" required>
+                </div>
+                <br>
+                <div>
+                    <label for="spread2">Spread2: Another non-linear measure capturing variation in the voice:</label>
+                    <input type="number" id="spread2" name="spread2" step="0.01" required>
+                </div>
+                <br>
+                <div>
+                    <label for="D2">Correlation Dimension:</label>
+                    <input type="number" id="D2" name="D2" step="0.01" required>
+                </div>
+                <br>
+                <div>
+                    <label for="PPE">Pitch Period Entropy:</label>
+                    <input type="number" id="PPE" name="PPE" step="0.01" required>
+                </div>
+                <br>
                 <br>
                 <div>
                     <button type="reset">Reset</button>
@@ -94,25 +158,26 @@
                 </div>
                 <br>
             </form>
+                <br>
+            </form>
+            {% if result %}
+            {% if result == 1 %}
+                <h1>Sorry, you have Parkinson's</h1>
+            {% else %}
+                <h1>You don't have Parkinson's</h1>
+            {% endif %}
+            {% else %}
+            <h1>Waiting for your prediction...</h1>
+            {% endif %}
         </div>
     </section>    
 
     <section class="footer">
         <footer class="d-flex flex-wrap justify-content-between align-items-center py-4 my-0 border-top">
             <p class="col-md-4 mb-0 text-body-secondary merriweather-regular">© 2024 RAYS, Inc</p>
-
             <a href="{% url 'home' %}" class="col-md-4 d-flex align-items-center justify-content-center mb-3 mb-md-0 me-md-auto link-body-emphasis text-decoration-none">
                 <img src="{% static 'assets/iASWFP01.svg' %}" alt="logo" height="40">
             </a>
-
-            <ul class="nav col-md-4 justify-content-end">
-                <li class="nav-item"><a href="{% url 'home' %}" class="nav-link px-2 text-body-secondary merriweather-regular">Home</a></li>
-                <li class="nav-item"><a href="{% url 'models' %}" class="nav-link px-2 text-body-secondary merriweather-regular">Models</a></li>
-                <li class="nav-item"><a href="{% url 'chatbot' %}" class="nav-link px-2 text-body-secondary merriweather-regular">Chatbot</a></li>
-                <li class="nav-item"><a href="{% url 'games' %}" class="nav-link px-2 text-body-secondary merriweather-regular">Games</a></li>
-                <li class="nav-item"><a href="{% url 'contact' %}" class="nav-link px-2 text-body-secondary merriweather-regular">Contact Us</a></li>
-                <li class="nav-item"><a href="{% url 'about' %}" class="nav-link px-2 text-body-secondary merriweather-regular">About</a></li>
-            </ul>
         </footer>
     </section>
 
