@@ -27,6 +27,8 @@ DEBUG = True
 
 ALLOWED_HOSTS = []
 
+# Auth User Model
+AUTH_USER_MODEL='User.User'
 
 # Application definition
 
@@ -39,7 +41,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'games',
     'mlModels',
-    'users',
+    'User',
 ]
 
 MIDDLEWARE = [
