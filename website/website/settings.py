@@ -39,6 +39,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'games',
     'mlModels',
+    'users',
 ]
 
 MIDDLEWARE = [
