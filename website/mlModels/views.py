@@ -1,25 +1,31 @@
-from django.shortcuts import render,redirect
+# views.py updates
+from django.shortcuts import render, redirect
 import numpy as np
 import pickle
 import os
+from .models import Parkinson, HeartDisease
+from django.contrib.auth.decorators import login_required
 
 # Get the base directory of your Django project
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 # Define the path to store the model inside the 'models' folder
-MODEL_PATH = os.path.join(BASE_DIR, "mlModels\models\parkinson.pkl")
+MODEL_PATH = os.path.join(BASE_DIR, "mlModels", "models", "parkinson.pkl")
 
-# Save model
-with open(MODEL_PATH,'rb') as f:
-    model=pickle.load(f)
+# Load the Parkinson's model
+with open(MODEL_PATH, 'rb') as f:
+    model = pickle.load(f)
 
 # Create your views here.
+@login_required
 def mlModels(request):
     return render(request, 'models.html')
 
+@login_required
 def parkinson(request, result):
     return render(request, 'parkinson.html', {'result': result})
 
+@login_required
 def parkinson_predict(request):
     features = []
     if request.method == "POST":
@@ -47,51 +53,45 @@ def parkinson_predict(request):
         float(request.POST["D2"]),
         float(request.POST["PPE"]),
     ]
-
         
-        data=np.array(features).reshape(1,-1)
-        prediction=model.predict(data)[0]
+        data = np.array(features).reshape(1, -1)
+        prediction = model.predict(data)[0]
         return redirect("parkinson", result=prediction)
 
-    
-from django.shortcuts import render
-import numpy as np
-import pickle
-import os
-
 # Load the heart disease model
-BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-MODEL_PATH = os.path.join(BASE_DIR, "mlModels", "models", "heartdisease.pkl")
+HEART_MODEL_PATH = os.path.join(BASE_DIR, "mlModels", "models", "heartdisease.pkl")
 
-with open(MODEL_PATH, 'rb') as f:
+with open(HEART_MODEL_PATH, 'rb') as f:
     heart_disease_model = pickle.load(f)
 
-def heartdisease(request, result):
-    return render(request, 'heart_disease.html', {'result':result})
+@login_required
+def heartdisease_home(request):
+    return render(request, 'heart_disease.html')
 
+@login_required
+def heartdisease(request, result):
+    return render(request, 'heart_disease.html', {'result': result})
+
+@login_required
 def heartdisease_predict(request):
     if request.method == "POST":
-            # Extract form data
-            features = [
-                int(request.POST["age"]),
-                1 if request.POST["gender"] == "Male" else 0,
-                int(request.POST["cp"]),
-                int(request.POST["trestbps"]),
-                int(request.POST["chol"]),
-                1 if request.POST["fbs"] == "True" else 0,
-                int(request.POST["restecg"]),
-                int(request.POST["thalach"]),
-                1 if request.POST["exang"] == "Yes" else 0,
-                float(request.POST["oldpeak"]),
-                int(request.POST["slope"]),
-                int(request.POST["ca"]),
-                {"Normal": 1, "Fixed defect": 2, "Reversable defect": 3}.get(request.POST["thal"], 1),
-            ]
-
-            # Make prediction
-            prediction = heart_disease_model.predict(np.array([features]))[0]
-            result = prediction
-            return redirect('heartdisease',result=result)
-           
-
-    return render(request, "heartdisease.html")
+        # Extract form data
+        features = [
+            int(request.POST["age"]),
+            1 if request.POST["gender"] == "Male" else 0,
+            int(request.POST["cp"]),
+            int(request.POST["trestbps"]),
+            int(request.POST["chol"]),
+            1 if request.POST["fbs"] == "True" else 0,
+            int(request.POST["restecg"]),
+            int(request.POST["thalach"]),
+            1 if request.POST["exang"] == "Yes" else 0,
+            float(request.POST["oldpeak"]),
+            int(request.POST["slope"]),
+            int(request.POST["ca"]),
+            {"Normal": 1, "Fixed defect": 2, "Reversable defect": 3}.get(request.POST["thal"], 1),
+        ]
+        
+        # Make prediction
+        prediction = heart_disease_model.predict(np.array([features]))[0]
+        return redirect('heartdisease', result=prediction)

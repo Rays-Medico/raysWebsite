@@ -31,4 +31,5 @@ urlpatterns = [
     path('heartdisease/', views.heartdisease, name='heartdisease'),
     path('games/', include('games.urls'),name='games'),
     path('models/', include('mlModels.urls'), name='models'),
+    path('accounts/', include('django.contrib.auth.urls')),
 ]
