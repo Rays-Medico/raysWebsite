@@ -3,3 +3,6 @@ flask
 numpy
 joblib
 scikit-learn
+django-storages[azure]
+azure-storage-blob
+celery

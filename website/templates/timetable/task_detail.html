@@ -1,0 +1,44 @@
+{% extends 'timetable/base.html' %}
+
+{% block title %}{{ task.name }}{% endblock %}
+
+{% block content %}
+    <div class="card {% if task.is_overdue %}border-danger{% elif task.is_due_soon %}border-warning{% endif %}">
+        <div class="card-header d-flex justify-content-between align-items-center">
+            <h2>Task Details</h2>
+            <div class="btn-group">
+                <a href="{% url 'timetable:task_update' task.pk %}" class="btn btn-primary">Edit</a>
+                <a href="{% url 'timetable:task_delete' task.pk %}" class="btn btn-danger">Delete</a>
+                {% if task.status == 'pending' %}
+                    <a href="{% url 'timetable:mark_completed' task.pk %}" class="btn btn-success">Mark Completed</a>
+                {% else %}
+                    <a href="{% url 'timetable:mark_pending' task.pk %}" class="btn btn-warning">Mark Pending</a>
+                {% endif %}
+            </div>
+        </div>
+        <div class="card-body">
+            <h3 class="card-title">
+                {{ task.name }}
+                {% if task.status == 'completed' %}<span class="badge bg-success">Completed</span>{% endif %}
+                {% if task.is_overdue %}<span class="badge bg-danger">Overdue</span>{% endif %}
+                {% if task.is_due_soon %}<span class="badge bg-warning text-dark">Due Soon</span>{% endif %}
+            </h3>
+            <p class="card-text">
+                <strong>Due Date:</strong> {{ task.schedule_time|date:"F j, Y, g:i a" }}
+            </p>
+            {% if task.description %}
+                <div class="card-text mt-3">
+                    <h5>Description</h5>
+                    <p>{{ task.description|linebreaks }}</p>
+                </div>
+            {% endif %}
+            <div class="card-text text-muted mt-3">
+                <small>Created: {{ task.created_at|date:"F j, Y, g:i a" }}</small><br>
+                <small>Last updated: {{ task.updated_at|date:"F j, Y, g:i a" }}</small>
+            </div>
+        </div>
+        <div class="card-footer">
+            <a href="{% url 'timetable:task_list' %}" class="btn btn-secondary">Back to List</a>
+        </div>
+    </div>
+{% endblock %}

@@ -32,4 +32,6 @@ urlpatterns = [
     path('games/', include('games.urls'),name='games'),
     path('models/', include('mlModels.urls'), name='models'),
     path('accounts/', include('django.contrib.auth.urls')),
+    path('healthVault/', include('healtVault.urls'), name='healthVault'),
+    path('timetable/', include('timetable.urls')),
 ]

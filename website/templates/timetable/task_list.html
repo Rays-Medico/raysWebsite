@@ -1,0 +1,68 @@
+{% extends 'timetable/base.html' %}
+
+{% block title %}Your Tasks{% endblock %}
+
+{% block content %}
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h1>Your Tasks</h1>
+        <a href="{% url 'timetable:task_create' %}" class="btn btn-primary">Add New Task</a>
+    </div>
+    
+    <div class="mb-4">
+        <h2>Pending Tasks</h2>
+        {% if pending_tasks %}
+            <div class="list-group">
+                {% for task in pending_tasks %}
+                    <div class="list-group-item {% if task.is_overdue %}task-overdue{% elif task.is_due_soon %}task-due-soon{% endif %} d-flex justify-content-between align-items-center">
+                        <div>
+                            <h5 class="mb-1">{{ task.name }}</h5>
+                            <p class="mb-1">
+                                <strong>Due:</strong> {{ task.schedule_time|date:"F j, Y, g:i a" }}
+                                {% if task.is_overdue %}
+                                    <span class="badge bg-danger">Overdue</span>
+                                {% elif task.is_due_soon %}
+                                    <span class="badge bg-warning text-dark">Due Soon</span>
+                                {% endif %}
+                            </p>
+                            {% if task.description %}
+                                <small>{{ task.description|truncatechars:100 }}</small>
+                            {% endif %}
+                        </div>
+                        <div class="btn-group" role="group">
+                            <a href="{% url 'timetable:task_detail' task.pk %}" class="btn btn-sm btn-info">View</a>
+                            <a href="{% url 'timetable:task_update' task.pk %}" class="btn btn-sm btn-secondary">Edit</a>
+                            <a href="{% url 'timetable:mark_completed' task.pk %}" class="btn btn-sm btn-success">Complete</a>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+        {% else %}
+            <p>No pending tasks. Nice job!</p>
+        {% endif %}
+    </div>
+    
+    <div>
+        <h2>Completed Tasks</h2>
+        {% if completed_tasks %}
+            <div class="list-group">
+                {% for task in completed_tasks %}
+                    <div class="list-group-item d-flex justify-content-between align-items-center">
+                        <div>
+                            <h5 class="mb-1 text-muted"><del>{{ task.name }}</del></h5>
+                            <p class="mb-1 text-muted">
+                                <strong>Due:</strong> {{ task.schedule_time|date:"F j, Y, g:i a" }}
+                                <span class="badge bg-success">Completed</span>
+                            </p>
+                        </div>
+                        <div class="btn-group" role="group">
+                            <a href="{% url 'timetable:task_detail' task.pk %}" class="btn btn-sm btn-info">View</a>
+                            <a href="{% url 'timetable:mark_pending' task.pk %}" class="btn btn-sm btn-warning">Undo</a>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+        {% else %}
+            <p>No completed tasks yet.</p>
+        {% endif %}
+    </div>
+{% endblock %}
