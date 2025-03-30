@@ -25,7 +25,7 @@ def upload_pdf(request):
             title = form.cleaned_data['title']
             
             # Generate a unique filename
-            filename = f"pdfs/{datetime.now().strftime('%Y/%m/%d')}/{file.name}"
+            filename = f"{file.name}"
             logger.info(f"Generated filename: {filename}")
             
             # Save directly to Azure

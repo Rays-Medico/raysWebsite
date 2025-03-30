@@ -27,7 +27,8 @@ INSTALLED_APPS = [
     'mlModels',
     'User',
     'storages',
-    'healtVault.apps.HealtvaultConfig'
+    'healtVault.apps.HealtvaultConfig',
+    'timetable',
 ]
 
 MIDDLEWARE = [
@@ -134,6 +135,17 @@ print(f"Settings loaded. DEFAULT_FILE_STORAGE: {DEFAULT_FILE_STORAGE}")
 
 # If you want to test Azure connectivity, do it here AFTER all settings are configured
 # But I recommend moving this to a management command instead of your settings file
+
+# Email settings for Gmail
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_PORT = 587
+EMAIL_USE_TLS = True
+EMAIL_HOST_USER = 'ayushbhosale70@gmail.com'
+EMAIL_HOST_PASSWORD = 'gxbcgepiykhisevj'  
+DEFAULT_FROM_EMAIL = 'ayushbhosale70@gmail.com'
+EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+
 """
 def test_azure_connection():
     try:
