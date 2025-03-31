@@ -39,6 +39,26 @@
     </style>
 </head>
 <body>
+    <section class="header">
+        <header class="p-3 bg-white shadow-sm">
+            <div class="container d-flex flex-wrap align-items-center justify-content-between">
+                <a href="/" class="text-decoration-none fw-bold" style="font-size: 24px; font-family: 'Inter', sans-serif; color: #079FBD;">RAYS</a>
+                <ul class="nav col-lg-auto mb-2 justify-content-center mb-md-0">
+                    <li><a href="{% url 'home' %}" class="nav-link px-3 text-secondary">Home</a></li>
+                    <li><a href="{% url 'models' %}" class="nav-link px-3 text-dark">Models</a></li>
+                    <li><a href="{% url 'games' %}" class="nav-link px-3 text-dark">Games</a></li>
+                    <li><a href="{% url 'chatbot' %}" class="nav-link px-3 text-dark">Chatbot</a></li>
+                    <li><a href="{% url 'contact' %}" class="nav-link px-3 text-dark">Contact Us</a></li>
+                    <li><a href="{% url 'about' %}" class="nav-link px-3 text-dark">About</a></li>
+                </ul>
+                <div>
+                    <button type="button" class="btn btn-outline-primary me-3 px-4 py-2 rounded-pill">Login</button>
+                    <button type="button" class="btn btn-primary px-4 py-2 rounded-pill">Sign Up</button>
+                </div>
+            </div>
+        </header>
+    </section>
+
     <div class="game-container">
         <h1>Test Your Reaction Time!</h1>
         <p>Wait for the box to turn green, then click as quickly as you can!</p>

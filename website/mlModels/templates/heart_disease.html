@@ -1,3 +1,4 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -20,8 +21,8 @@
                 <li><a href="{% url 'models' %}" class="nav-link text-white">Models</a></li>
                 <li><a href="{% url 'chatbot' %}" class="nav-link text-white">Chatbot</a></li>
                 <li><a href="{% url 'games' %}" class="nav-link text-white">Games</a></li>
-                <li><a href="{% url 'contact_us' %}" class="nav-link text-white">Contact Us</a></li>
-                <li><a href="{% url 'about_us' %}" class="nav-link text-white">About</a></li>
+                <li><a href="{% url 'contact' %}" class="nav-link text-white">Contact Us</a></li>
+                <li><a href="{% url 'about' %}" class="nav-link text-white">About</a></li>
             </ul>
 
             <div>
@@ -31,7 +32,41 @@
         </div>
     </section>
 
-    <!-- Form Section -->
+    <!-- Results Section (displayed only when result is available) -->
+    {% if result is not None %}
+    <section class="container mt-5">
+        <div class="card p-4 shadow-sm mb-5">
+            <h2 class="text-center mb-4">Heart Disease Prediction Results</h2>
+            
+            <div class="alert {% if result == 1 %}alert-danger{% else %}alert-success{% endif %} p-4">
+                <h3 class="text-center">
+                    {% if result == 1 %}
+                        <strong>Prediction: Potential Heart Disease Detected</strong>
+                    {% else %}
+                        <strong>Prediction: No Heart Disease Detected</strong>
+                    {% endif %}
+                </h3>
+                
+                <div class="mt-4">
+                    {% if result == 1 %}
+                        <p>The model has detected potential indicators of heart disease based on the information provided. Please note that this is not a clinical diagnosis.</p>
+                        <p class="fw-bold">Recommendation: Consult with a healthcare professional for a proper medical evaluation.</p>
+                    {% else %}
+                        <p>Based on the provided information, the model did not detect significant indicators of heart disease.</p>
+                        <p class="fw-bold">Recommendation: Continue to maintain a healthy lifestyle with regular medical check-ups.</p>
+                    {% endif %}
+                </div>
+            </div>
+            
+            <div class="d-flex justify-content-center mt-4">
+                <a href="{% url 'heartdisease' %}" class="btn btn-primary">Make Another Prediction</a>
+            </div>
+        </div>
+    </section>
+    {% endif %}
+
+    <!-- Form Section (hidden if result is shown) -->
+    {% if result is None %}
     <section class="container mt-5">
         <h1 class="text-center mb-4">Heart Disease Prediction</h1>
         <div class="card p-4 shadow-sm">
@@ -128,9 +163,9 @@
                 <div class="mb-3">
                     <label for="thal" class="form-label">Thalassemia Levels:</label>
                     <select id="thal" name="thal" class="form-select" required>
-                        <option value="1">Normal</option>
-                        <option value="2">Fixed defect</option>
-                        <option value="3">Reversible defect</option>
+                        <option value="Normal">Normal</option>
+                        <option value="Fixed defect">Fixed defect</option>
+                        <option value="Reversable defect">Reversible defect</option>
                     </select>
                 </div>
 
@@ -138,10 +173,10 @@
                     <button type="reset" class="btn btn-secondary">Reset</button>
                     <button type="submit" class="btn btn-primary">Predict</button>
                 </div>
-
             </form>
         </div>
     </section>
+    {% endif %}
 
     <!-- Footer Section -->
     <footer class="bg-light text-center p-3 mt-5">
@@ -151,4 +186,3 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
-

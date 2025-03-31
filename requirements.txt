@@ -6,3 +6,9 @@ scikit-learn
 django-storages[azure]
 azure-storage-blob
 celery
+django
+numpy
+opencv-python
+tensorflow
+pillow
+djangorestframework
