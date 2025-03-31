@@ -17,6 +17,9 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path, include
 from . import views
+from django.conf import settings
+from django.conf.urls.static import static
+
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('',views.index,name='home'),
@@ -24,6 +27,7 @@ urlpatterns = [
     path('contact/',views.contact,name='contact'),
     path('streamlit/', views.streamlit_view, name='streamlit_embed'),
     #TODO: Add a new path for the streamlit chatbot
+    path('chatbot_nav/', views.chatbot_nav, name='chatbot_nav'),
     path('chatbot/', views.chatbot, name='chatbot'),
     # path('models/', views.model, name='models'),
     path('parkinson/', views.parkinson, name='parkinson'),
@@ -32,6 +36,8 @@ urlpatterns = [
     path('games/', include('games.urls'),name='games'),
     path('models/', include('mlModels.urls'), name='models'),
     path('accounts/', include('django.contrib.auth.urls')),
-    path('healthVault/', include('healtVault.urls'), name='healthVault'),
-    path('timetable/', include('timetable.urls')),
+    path('healthVault/', include('healtVault.urls')),
+    path('timetable/', include('timetable.urls')),# , namespace='timetable'
 ]
+if settings.DEBUG:
+    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

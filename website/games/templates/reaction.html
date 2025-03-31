@@ -1,18 +1,30 @@
+{% load static %}
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Reaction Time Tester</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&family=Space+Grotesk:wght@400;600&display=swap" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="{% static 'styles.css' %}">
     <style>
+        body {
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
         .game-container {
-            max-width: 500px;
+            flex: 1;
+            max-width: 600px;
             margin: 50px auto;
             text-align: center;
-            font-family: Arial, sans-serif;
+            font-family: 'Inter', sans-serif;
             padding: 20px;
         }
         #box {
-            width: 200px;
-            height: 200px;
+            width: 250px;
+            height: 250px;
             background: red;
             margin: 20px auto;
             cursor: pointer;
@@ -20,21 +32,31 @@
             align-items: center;
             justify-content: center;
             color: white;
-            font-size: 18px;
+            font-size: 20px;
+            font-weight: 600;
+            border-radius: 12px;
+            transition: background 0.2s ease-in-out;
         }
         .results {
             margin: 20px;
             padding: 15px;
-            background: #f0f0f0;
-            border-radius: 5px;
+            background: #e8f4f8;
+            border-radius: 8px;
+            font-weight: 500;
         }
         .button {
-            padding: 10px 20px;
-            background: #3498db;
+            padding: 12px 24px;
+            background: #079FBD;
             color: white;
             border: none;
-            border-radius: 5px;
+            border-radius: 8px;
+            font-size: 16px;
             cursor: pointer;
+            font-family: 'Space Grotesk', sans-serif;
+            transition: 0.3s;
+        }
+        .button:hover {
+            background: #056c87;
         }
     </style>
 </head>
@@ -60,12 +82,14 @@
     </section>
 
     <div class="game-container">
-        <h1>Test Your Reaction Time!</h1>
+        <h1 class="fw-bold" style="font-family: 'Space Grotesk', sans-serif; color: #079FBD;">Test Your Reaction Time!</h1>
         <p>Wait for the box to turn green, then click as quickly as you can!</p>
         <div id="box">Wait...</div>
         <button class="button" onclick="startGame()">Start Test</button>
         <div class="results" id="results"></div>
     </div>
+    
+    {% include 'partials/footer.html' %} <!-- Consistent Footer -->
 
     <script>
         let startTime, endTime;
@@ -78,7 +102,6 @@
             document.getElementById('results').textContent = '';
             gameStarted = false;
 
-            // Random delay between 1-5 seconds
             timeoutId = setTimeout(() => {
                 document.getElementById('box').style.backgroundColor = 'green';
                 document.getElementById('box').textContent = 'Click Now!';
@@ -96,14 +119,14 @@
             
             endTime = new Date().getTime();
             let reactionTime = endTime - startTime;
-            let result = `Your reaction time: ${reactionTime} milliseconds\n`;
+            let result = Your reaction time: ${reactionTime} milliseconds\n;
             
             if (reactionTime < 250) {
-                result += 'Excellent reflexes!';
+                result += '🔥 Excellent reflexes!';
             } else if (reactionTime < 350) {
-                result += 'Good reflexes!';
+                result += '⚡ Good reflexes!';
             } else {
-                result += 'Keep practicing!';
+                result += '📉 Keep practicing!';
             }
             
             document.getElementById('results').textContent = result;

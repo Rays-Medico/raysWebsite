@@ -12,3 +12,6 @@ opencv-python
 tensorflow
 pillow
 djangorestframework
+streamlit
+python-dotenv
+groq

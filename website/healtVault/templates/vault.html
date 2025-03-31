@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PDF Vault</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        .pdf-list {
+            margin-top: 30px;
+        }
+        .pdf-item {
+            margin-bottom: 10px;
+            padding: 15px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            transition: background-color 0.2s;
+        }
+        .pdf-item:hover {
+            background-color: #f8f9fa;
+        }
+        .pdf-metadata {
+            color: #6c757d;
+            font-size: 0.875rem;
+        }
+        .pdf-actions {
+            display: flex;
+            gap: 10px;
+        }
+        .header-actions {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container mt-5">
+        <div class="header-actions">
+            <h1>PDF Document Vault</h1>
+            {% comment %} <a href="{% url 'upload' %}" class="btn btn-success">Upload New PDF</a> {% endcomment %}
+        </div>
+        
+        <div id="pdf-container" class="pdf-list">
+            {% if pdf_files %}
+                {% for pdf in pdf_files %}
+                    <div class="pdf-item">
+                        <div class="d-flex justify-content-between align-items-center">
+                            <div>
+                                <h5 class="mb-1">{{ pdf.name }}</h5>
+                                <div class="pdf-metadata">Date: {{ pdf.date_str }} | Last modified: {{ pdf.modified_time|date:"F j, Y, g:i a" }}</div>
+                            </div>
+                            <div class="pdf-actions">
+                                <a href="{{ pdf.url }}" class="btn btn-primary btn-sm" target="_blank">View</a>
+                                <a href="{{ pdf.url }}" class="btn btn-secondary btn-sm" download>Download</a>
+                            </div>
+                        </div>
+                    </div>
+                {% endfor %}
+                
+                {% if paginator %}
+                    <nav aria-label="Page navigation" class="mt-4">
+                        <ul class="pagination justify-content-center">
+                            {% if pdf_files.has_previous %}
+                                <li class="page-item">
+                                    <a class="page-link" href="?page=1{% if query_params %}&{{ query_params }}{% endif %}">&laquo; First</a>
+                                </li>
+                                <li class="page-item">
+                                    <a class="page-link" href="?page={{ pdf_files.previous_page_number }}{% if query_params %}&{{ query_params }}{% endif %}">Previous</a>
+                                </li>
+                            {% else %}
+                                <li class="page-item disabled">
+                                    <a class="page-link" href="#">&laquo; First</a>
+                                </li>
+                                <li class="page-item disabled">
+                                    <a class="page-link" href="#">Previous</a>
+                                </li>
+                            {% endif %}
+                            
+                            <li class="page-item active">
+                                <a class="page-link" href="#">Page {{ pdf_files.number }} of {{ paginator.num_pages }}</a>
+                            </li>
+                            
+                            {% if pdf_files.has_next %}
+                                <li class="page-item">
+                                    <a class="page-link" href="?page={{ pdf_files.next_page_number }}{% if query_params %}&{{ query_params }}{% endif %}">Next</a>
+                                </li>
+                                <li class="page-item">
+                                    <a class="page-link" href="?page={{ paginator.num_pages }}{% if query_params %}&{{ query_params }}{% endif %}">Last &raquo;</a>
+                                </li>
+                            {% else %}
+                                <li class="page-item disabled">
+                                    <a class="page-link" href="#">Next</a>
+                                </li>
+                                <li class="page-item disabled">
+                                    <a class="page-link" href="#">Last &raquo;</a>
+                                </li>
+                            {% endif %}
+                        </ul>
+                    </nav>
+                {% endif %}
+            {% else %}
+                <div class="alert alert-info">
+                    No PDF files found.
+                </div>
+            {% endif %}
+        </div>
+    </div>
+</body>
+</html>

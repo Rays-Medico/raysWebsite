@@ -27,3 +27,6 @@ def cancer(request):
 
 def heartdisease(request):
     return render(request, 'heartdisease.html')
+
+def chatbot_nav(request):
+    return render(request, 'chatbot_nav.html')

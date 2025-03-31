@@ -1,85 +1,73 @@
 import os
-from dotenv import dotenv_values
 import streamlit as st
-from groq import Groq
 
-def parse_groq_stream(stream):
-    for chunk in stream:
-        if chunk.choices:
-            if chunk.choices[0].delta.content is not None:
-                yield chunk.choices[0].delta.content
-
-
-# streamlit page configuration
+# Streamlit page configuration
 st.set_page_config(
     page_title="Ayush",
     page_icon="🤖",
     layout="centered",
 )
 
+# Directly define all required values
+GROQ_API_KEY='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'
 
-try:
-    secrets = dotenv_values(".env")  # for dev env
-    GROQ_API_KEY = secrets["GROQ_API_KEY"]
-except:
-    secrets = st.secrets  # for streamlit deployment
-    GROQ_API_KEY = secrets["GROQ_API_KEY"]
+INITIAL_RESPONSE = "Hello! I am Ayush, your virtual health assistant. How can I help you today?"
 
-# save the api_key to environment variable
+CHAT_CONTEXT = """You are Ayush, a virtual health assistant designed to provide helpful and accurate information on medical topics. You can offer guidance on symptoms, suggest possible conditions, provide information about medications, recommend when to seek medical attention, and explain medical procedures. 
+However, you are not a licensed medical professional, and users should always consult with a healthcare provider for diagnosis and treatment. Maintain a calm, empathetic, and professional tone in all interactions.
+"""
+
+INITIAL_MSG = "Hello! I am Ayush, a virtual health assistant designed to provide medical guidance and answer your health-related questions. Please note that I am not a substitute for professional medical advice. How can I assist you today?"
+
+# Save the API key to environment variable (required by Groq client)
 os.environ["GROQ_API_KEY"] = GROQ_API_KEY
 
-INITIAL_RESPONSE = secrets["INITIAL_RESPONSE"]
-INITIAL_MSG = secrets["INITIAL_MSG"]
-CHAT_CONTEXT = secrets["CHAT_CONTEXT"]
-
-
-client = Groq()
-
-# initialize the chat history if present as streamlit session
+# Initialize chat history in Streamlit session state
 if "chat_history" not in st.session_state:
-    # print("message not in chat session")
     st.session_state.chat_history = [
-        {"role": "assistant",
-         "content": INITIAL_RESPONSE
-         },
+        {"role": "assistant", "content": INITIAL_RESPONSE},
     ]
 
-# page title
+# Page title and caption
 st.title("Hey There!")
-st.caption("Let's talk Human!...")
-# the messages in chat_history will be stored as {"role":"user/assistant", "content":"msg}
-# display chat history
+st.caption("Let's talk developer!...")
+
+# Display chat history
 for message in st.session_state.chat_history:
-    # print("message in chat session")
-    with st.chat_message("role", avatar='🤖'):
+    with st.chat_message(message["role"], avatar='🤖' if message["role"] == "assistant" else "🗨️"):
         st.markdown(message["content"])
 
-
-# user input field
+# User input field
 user_prompt = st.chat_input("Ask me")
 
 if user_prompt:
-    # st.chat_message("user").markdown
+    # Display user message
     with st.chat_message("user", avatar="🗨️"):
         st.markdown(user_prompt)
-    st.session_state.chat_history.append(
-        {"role": "user", "content": user_prompt})
+    st.session_state.chat_history.append({"role": "user", "content": user_prompt})
 
-    # get a response from the LLM
-    messages = [
-        {"role": "system", "content": CHAT_CONTEXT
-         },
-        {"role": "assistant", "content": INITIAL_MSG},
-        *st.session_state.chat_history
-    ]
+    try:
+        # Import Groq with specific client initialization to handle the issue
+        from groq import Groq
+        client = Groq(api_key=GROQ_API_KEY)  # Explicitly pass the API key instead of relying on env var
+        
+        # Prepare messages for the LLM
+        messages = [
+            {"role": "system", "content": CHAT_CONTEXT},
+            {"role": "assistant", "content": INITIAL_MSG},
+            *st.session_state.chat_history[:-1]  # Exclude the most recent user message we just added
+        ]
 
-    # Display assistant response in chat message container
-    with st.chat_message("assistant", avatar='🤖'):
-        stream = client.chat.completions.create(
-            model="llama3-70b-8192",
-            messages=messages,
-            stream=True  # for streaming the message
-        )
-        response = st.write_stream(parse_groq_stream(stream))
-    st.session_state.chat_history.append(
-        {"role": "assistant", "content": response})
+        # Display assistant response (non-streaming for F1 compatibility)
+        with st.chat_message("assistant", avatar='🤖'):
+            completion = client.chat.completions.create(
+                model="llama3-70b-8192",
+                messages=messages,
+                stream=False  # Disable streaming for Azure F1
+            )
+            response = completion.choices[0].message.content
+            st.markdown(response)
+        st.session_state.chat_history.append({"role": "assistant", "content": response})
+    except Exception as e:
+        st.error(f"Error communicating with Groq API: {str(e)}")
+        st.info("If you're seeing a 'proxies' error, you may need to update your Groq package. Try running: pip install --upgrade groq")

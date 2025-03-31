@@ -29,7 +29,9 @@
                     <li><a href="{% url 'home' %}" class="nav-link px-3 text-secondary">Home</a></li>
                     <li><a href="{% url 'models' %}" class="nav-link px-3 text-dark">Models</a></li>
                     <li><a href="{% url 'games' %}" class="nav-link px-3 text-dark">Games</a></li>                
-                    <li><a href="{% url 'chatbot' %}" class="nav-link px-3 text-dark">Chatbot</a></li>
+                    <li><a href="{% url "chatbot_nav" %}" class="nav-link px-3 text-dark">Chatbot</a></li>
+                    <li><a href="/healthvault/" class="nav-link px-3 text-dark">Health Vault</a></li>
+                    <li><a href="/timetable/" class="nav-link px-3 text-dark">Time Table</a></li>
                     <li><a href="{% url 'contact' %}" class="nav-link px-3 text-dark">Contact Us</a></li>
                     <li><a href="{% url 'about' %}" class="nav-link px-3 text-dark">About</a></li>
                 </ul>
@@ -48,32 +50,38 @@
 <!-- Add Poppins Font -->
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@500;700&display=swap" rel="stylesheet">
 
-    <section class="title" style="background-color: white; padding-bottom: 7rem; position: relative;">
-      <div class="container px-4 py-5" style="max-width: 50vw; text-align: left; margin-left: 5vw;">
-          <div class="row g-5 py-5">
-              <div class="col-lg-12">
-                  <h1 class="fw-bold mb-3" style="font-family: 'Inter', sans-serif; line-height: 1.1;">
-                      <span style="color: #079FBD; font-size: 24px;">Medical</span><br>
-                      <span style="color: black; font-size: 48px; font-weight: bold; display: block;">Diagnostics and</span>
-                      <span style="color: black; font-size: 48px; font-weight: bold; display: block;">Solutions</span>
-                  </h1>
-                  <p class="lead mb-4" style="font-size: 16px; font-family: 'Space Grotesk', sans-serif; max-width: 40vw; line-height: 1.6;">
-                      Your trusted partner in preliminary health assessments. We leverage cutting-edge <br>
-                      technologies to provide quick and affordable insights into potential health conditions. <br>
-                      Designed to assist, our platform empowers you to take the first step towards better <br>
-                      health with confidence.
-                  </p>
-                  <button class="login-btn">Log in</button>
-              </div>
-          </div>
-      </div>
-  
-      <!-- "Our Services" text at bottom left -->
-      <p style="position: absolute; bottom: 5%; left: 5vw; font-family: 'Space Grotesk', sans-serif; font-weight: bold; font-size: 24px; color: black; margin: 0;">
-          Our Services
-      </p>
-  </section>
-  
+<section class="title" style="background-color: white; padding-bottom: 7rem; position: relative;">
+    <div class="container px-4 py-5" style="display: flex; align-items: center; max-width: 90vw; margin: 0 auto;">
+        
+        <!-- Left Text Content -->
+        <div style="max-width: 50%; text-align: left; margin-left: 5vw;">
+            <h1 class="fw-bold mb-3" style="font-family: 'Inter', sans-serif; line-height: 1.1;">
+                <span style="color: #079FBD; font-size: 24px;">Medical</span><br>
+                <span style="color: black; font-size: 48px; font-weight: bold; display: block;">Diagnostics and</span>
+                <span style="color: black; font-size: 48px; font-weight: bold; display: block;">Solutions</span>
+            </h1>
+            <p class="lead mb-4" style="font-size: 16px; font-family: 'Space Grotesk', sans-serif; line-height: 1.6;">
+                Your trusted partner in preliminary health assessments. We leverage cutting-edge <br>
+                technologies to provide quick and affordable insights into potential health conditions. <br>
+                Designed to assist, our platform empowers you to take the first step towards better <br>
+                health with confidence.
+            </p>
+            <button class="login-btn">Log in</button>
+        </div>
+
+        <!-- Right Image -->
+        <div style="flex: 1; display: flex; justify-content: center; align-items: center;">
+            <img src="{% static './assets/bg.png' %}" alt="Medical Diagnostics" style="max-width: 45vw; height: auto; object-fit: contain;">
+        </div>
+
+    </div>
+
+    <!-- "Our Services" text at bottom left -->
+    <p style="position: absolute; bottom: 5%; left: 5vw; font-family: 'Space Grotesk', sans-serif; font-weight: bold; font-size: 24px; color: black; margin: 0;">
+        Our Services
+    </p>
+</section>
+
   <style>
       .login-btn {
           background-color: #079FBD;
@@ -226,6 +234,3 @@
 
   </footer>
 </section>
-
-  
-  
