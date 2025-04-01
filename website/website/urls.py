@@ -38,6 +38,5 @@ urlpatterns = [
     path('accounts/', include('django.contrib.auth.urls')),
     path('healthVault/', include('healtVault.urls')),
     path('timetable/', include('timetable.urls')),# , namespace='timetable'
-]
-if settings.DEBUG:
-    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+    path('health_vault/', include('health_vault.urls')),
+]+ static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

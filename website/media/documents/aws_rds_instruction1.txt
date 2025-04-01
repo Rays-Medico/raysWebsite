@@ -1,0 +1,28 @@
+create instance from snapshot:
+
+got to rds service on aws search
+go to snapshots from the left hand side menu
+in snapshots go th "share with me"
+click on the correct snapshot. Then click on action button -> select restore snapshot
+Enter the DB indentifier field in the next form and keep the rest as default.
+Then click on 'restore'.
+
+once instance is created, keep the endpoint of the instance in mind,
+
+
+Change source code:
+
+to change the source code you will need to download the code from github on your machine.
+you will also need to download "Git" as a command line tool. Download git from the main
+webpage of Git.
+
+once git is downloaded, perform the following statement in command line.
+
+git clone https://github.com/DhruvGodambe/smartfeedback.git
+
+username: DhruvGodambe
+temp key: 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
+
+
+
+feedback-1.cjofwtekgu6i.ap-south-1.rds.amazonaws.com

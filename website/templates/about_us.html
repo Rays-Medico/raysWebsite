@@ -79,18 +79,21 @@
             <a href="/" class="fw-bold text-decoration-none" style="font-size: 24px; font-family: 'Space Grotesk', sans-serif; color: #079FBD;">RAYS</a>
             
             <nav>
-                <ul class="nav">
-                    <li class="nav-item"><a href="{% url 'home' %}" class="nav-link px-3 text-dark">Home</a></li>
-                    <li class="nav-item"><a href="{% url 'models' %}" class="nav-link px-3 text-dark">Models</a></li>
-                    <li class="nav-item"><a href="{% url 'chatbot' %}" class="nav-link px-3 text-dark">Chatbot</a></li>
-                    <li class="nav-item"><a href="{% url 'contact' %}" class="nav-link px-3 text-dark">Contact Us</a></li>
-                    <li class="nav-item"><a href="{% url 'about' %}" class="nav-link px-3 text-secondary">About</a></li>
-                </ul>
+                    <ul class="nav col-lg-auto mb-2 justify-content-center mb-md-0">
+                        <li><a href="{% url 'home' %}" class="nav-link px-3 text-secondary">Home</a></li>
+                        <li><a href="{% url 'models' %}" class="nav-link px-3 text-dark">Models</a></li>
+                        <li><a href="{% url 'games' %}" class="nav-link px-3 text-dark">Games</a></li>                
+                        <li><a href="{% url "chatbot_nav" %}" class="nav-link px-3 text-dark">Chatbot</a></li>
+                        <li><a href="/health_vault/" class="nav-link px-3 text-dark">Health Vault</a></li>
+                        <li><a href="/timetable/" class="nav-link px-3 text-dark">Time Table</a></li>
+                        <li><a href="{% url 'contact' %}" class="nav-link px-3 text-dark">Contact Us</a></li>
+                        <li><a href="{% url 'about' %}" class="nav-link px-3 text-dark">About</a></li>
+                    </ul>
             </nav>
 
             <div>
-                <button type="button" class="btn btn-outline-primary me-3 rounded-pill">Login</button>
-                <button type="button" class="btn btn-primary rounded-pill">Sign Up</button>
+                {% comment %} <button type="button" class="btn btn-outline-primary me-3 rounded-pill">Login</button>
+                <button type="button" class="btn btn-primary rounded-pill">Sign Up</button> {% endcomment %}
             </div>
         </div>
     </header>

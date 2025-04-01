@@ -1,0 +1,66 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="page-section">
+    <div class="d-flex align-items-center mb-4">
+        <a href="{% url 'health_vault:index' %}" class="btn btn-outline-primary btn-sm me-3">
+            <span class="material-icons" style="font-size: 18px;">arrow_back</span>
+            Back
+        </a>
+        <h1 class="health-vault-title m-0">Upload Health Document</h1>
+    </div>
+    
+    <p class="text-muted mb-4">
+        Upload medical reports, test results, prescriptions, or any other health-related documents.
+        Supported formats: PDF, JPG, PNG, DOC.
+    </p>
+    
+    <form method="post" enctype="multipart/form-data" class="mt-4">
+        {% csrf_token %}
+        
+        <div class="mb-4">
+            <label for="{{ form.title.id_for_label }}" class="form-label fw-medium">Document Title</label>
+            {{ form.title.errors }}
+            <input type="text" name="{{ form.title.name }}" id="{{ form.title.id_for_label }}" 
+                   class="form-control" placeholder="E.g., Blood Test Results - Jan 2024">
+            <small class="text-muted">Choose a clear title that helps you identify this document later</small>
+        </div>
+        
+        <div class="mb-4">
+            <label for="{{ form.description.id_for_label }}" class="form-label fw-medium">Description</label>
+            {{ form.description.errors }}
+            <textarea name="{{ form.description.name }}" id="{{ form.description.id_for_label }}" 
+                      class="form-control" rows="3" placeholder="Brief description of this document"></textarea>
+        </div>
+        
+        <div class="mb-4">
+            <label for="{{ form.file.id_for_label }}" class="form-label fw-medium">Document File</label>
+            {{ form.file.errors }}
+            <div class="input-group">
+                <input type="file" class="form-control" id="{{ form.file.id_for_label }}" name="{{ form.file.name }}">
+            </div>
+            <small class="text-muted">Maximum file size: 10MB</small>
+        </div>
+        
+        <div class="mb-4">
+            <label for="{{ form.category.id_for_label }}" class="form-label fw-medium">Category</label>
+            {{ form.category.errors }}
+            <select name="{{ form.category.name }}" id="{{ form.category.id_for_label }}" class="form-select">
+                <option value="">Select a category</option>
+                <option value="test_result">Test Result</option>
+                <option value="prescription">Prescription</option>
+                <option value="medical_report">Medical Report</option>
+                <option value="vaccination">Vaccination Record</option>
+                <option value="other">Other</option>
+            </select>
+        </div>
+        
+        <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+            <a href="{% url 'health_vault:index' %}" class="btn btn-outline-primary">Cancel</a>
+            <button type="submit" class="btn btn-primary">
+                <span class="material-icons me-1" style="font-size: 18px;">cloud_upload</span>
+                Upload Document
+            </button>
+        </div>
+    </form>
+</div>
+{% endblock %}

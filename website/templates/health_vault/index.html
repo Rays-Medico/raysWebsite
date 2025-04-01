@@ -1,0 +1,49 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="page-section">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h1 class="health-vault-title m-0">Health Documents</h1>
+        <a href="{% url 'health_vault:upload_document' %}" class="btn btn-primary upload-button">
+            <span class="material-icons">upload_file</span>
+            Upload New Document
+        </a>
+    </div>
+    
+    <p class="text-muted mb-4">
+        Securely store and manage all your important health documents in one place. 
+        Your data is encrypted and accessible only to you.
+    </p>
+    
+    {% if object_list %}
+        <ul class="document-list">
+            {% for document in object_list %}
+            <li class="document-item">
+                <div class="d-flex justify-content-between align-items-center">
+                    <div>
+                        <a href="{% url 'health_vault:view_document' document.id %}" class="document-link">
+                            <span class="material-icons align-middle me-2" style="font-size: 20px;">description</span>
+                            {{ document.title }}
+                        </a>
+                        <p class="document-description">{{ document.description|truncatewords:10 }}</p>
+                        <small class="text-muted">Uploaded on: {{ document.uploaded_at|date:"M d, Y" }}</small>
+                    </div>
+                    <a href="{% url 'health_vault:view_document' document.id %}" class="btn btn-outline-primary btn-sm">
+                        View
+                    </a>
+                </div>
+            </li>
+            {% endfor %}
+        </ul>
+    {% else %}
+        <div class="text-center py-5">
+            <span class="material-icons" style="font-size: 48px; color: #C4DCE1;">folder</span>
+            <h3 class="mt-3">No Documents Yet</h3>
+            <p class="text-muted">Start by uploading your first health document.</p>
+            <a href="{% url 'health_vault:upload_document' %}" class="btn btn-primary mt-2">
+                <span class="material-icons">add</span>
+                Add First Document
+            </a>
+        </div>
+    {% endif %}
+</div>
+{% endblock %}

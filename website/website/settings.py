@@ -29,6 +29,7 @@ INSTALLED_APPS = [
     'storages',
     'healtVault.apps.HealtvaultConfig',
     'timetable',
+    'health_vault',
 ]
 
 MIDDLEWARE = [
